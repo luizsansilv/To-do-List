@@ -31,7 +31,7 @@ A aplicação permite adicionar tarefas dinamicamente e melhorar a organização
 
 
 ```md
-![preview](img.png)
+![preview](./img.png)
 ```
 
 ---
