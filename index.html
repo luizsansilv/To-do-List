@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+    <main>
+
+        <section class="container">
+
+            <h1>Lista de Tarefas</h1>
+
+            <div class="tarefa-container">
+                <input type="text" id="tarefas" placeholder="Digite sua tarefa">
+                <button class="btn">Adicionar</button>
+            </div>
+
+            <div class="container-lista">
+                <h2>Suas tarefas</h2>
+                <ul class="lista-tarefas"></ul>
+                <template id="template-lista">
+                    <li class="itens-lista">
+                        <span class="conteudo"></span>
+                        <button class="remover">X</button>
+                    </li>
+                </template>
+            </div>
+
+        </section>
+
+        <section class="estrelas">
+            <div class="stars"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+            <div class="shooting-star"></div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
