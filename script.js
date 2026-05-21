@@ -1,70 +1,102 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const listaTarefa = document.querySelector('.container-lista');
-    const input = document.getElementById('tarefas');
-    const lista = document.querySelector('.lista-tarefas');
+    const listaContainer = document.querySelector(".container-lista");
+    const lista = document.querySelector(".lista-tarefas");
+    const input = document.getElementById("tarefas");
+    const botao = document.querySelector(".btn");
+    const template = document.getElementById("template-lista");
 
-    // esconder lista no início
-    listaTarefa.style.display = 'none';
+    // pegar tarefas salvas
+    let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
+
+    // esconder lista se não houver tarefas
+    if (tarefas.length === 0) {
+        listaContainer.style.display = "none";
+    }
+
+    // mostrar tarefas ao carregar
+    mostrarTarefas();
+
+    function salvarTarefas() {
+        localStorage.setItem("tarefas", JSON.stringify(tarefas));
+    }
 
     function adicionarTarefa() {
 
         const valorInput = input.value.trim();
 
-        // verificar input vazio
-        if (valorInput === '') {
-            alert('Por favor digite uma tarefa!');
+        // validar input vazio
+        if (valorInput === "") {
+            alert("Por favor digite uma tarefa!");
             return;
         }
 
-        // pegar todas as tarefas já existentes
-        const tarefasExistentes = document.querySelectorAll('.conteudo');
+        // verificar duplicadas
+        const tarefaExiste = tarefas.some(
+            tarefa => tarefa.toLowerCase() === valorInput.toLowerCase()
+        );
 
-        // verificar tarefas repetidas
-        for (let tarefa of tarefasExistentes) {
-            if (tarefa.textContent.toLowerCase() === valorInput.toLowerCase()) {
-                alert('Essa tarefa já foi adicionada!');
-                input.value = '';
-                return;
-            }
+        if (tarefaExiste) {
+            alert("Essa tarefa já foi adicionada!");
+            input.value = "";
+            return;
         }
 
-        // criar item da lista
-        const template = document.getElementById("template-lista");
-        const clone = template.content.cloneNode(true);
+        // adicionar no array
+        tarefas.push(valorInput);
 
-        // adicionar texto da tarefa
-        clone.querySelector(".conteudo").textContent = valorInput;
+        salvarTarefas();
 
-        // botão remover
-        clone.querySelector(".remover").onclick = function () {
-            this.parentElement.remove();
+        mostrarTarefas();
 
-            // esconder lista se estiver vazia
-            if (lista.children.length === 0) {
-                listaTarefa.style.display = 'none';
-            }
-        };
-
-        // adicionar tarefa na lista
-        lista.appendChild(clone);
-
-        // mostrar container
-        listaTarefa.style.display = 'flex';
-
-        // limpar input
-        input.value = '';
+        input.value = "";
     }
 
-    // adicionar com Enter
-    input.addEventListener("keydown", function (e) {
+    function mostrarTarefas() {
+
+        lista.innerHTML = "";
+
+        tarefas.forEach((tarefa, index) => {
+
+            const clone = template.content.cloneNode(true);
+
+            clone.querySelector(".conteudo").textContent = tarefa;
+
+            clone.querySelector(".remover")
+                .addEventListener("click", () => {
+
+                    removerTarefa(index);
+
+                });
+
+            lista.appendChild(clone);
+
+        });
+
+        // mostrar/esconder container
+        listaContainer.style.display =
+            tarefas.length === 0 ? "none" : "flex";
+    }
+
+    function removerTarefa(index) {
+
+        tarefas.splice(index, 1);
+
+        salvarTarefas();
+
+        mostrarTarefas();
+    }
+
+    // botão adicionar
+    botao.addEventListener("click", adicionarTarefa);
+
+    // tecla Enter
+    input.addEventListener("keydown", (e) => {
+
         if (e.key === "Enter") {
             adicionarTarefa();
         }
-    });
 
-    // adicionar com botão
-    document.querySelector('.btn')
-        .addEventListener('click', adicionarTarefa);
+    });
 
 });
