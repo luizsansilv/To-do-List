@@ -27,15 +27,6 @@ A aplicação permite adicionar tarefas dinamicamente e melhorar a organização
 
 ---
 
-## 📸 Preview
-
-
-```md
-![preview](./img.png)
-```
-
----
-
 ## ⚙️ Funcionalidades
 
 * ✅ Adicionar tarefas
